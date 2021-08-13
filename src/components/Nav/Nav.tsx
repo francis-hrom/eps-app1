@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Nav.css";
 
-const Nav = () => (
+const Nav = (): JSX.Element => (
   <div className="Nav" data-testid="Nav">
     <nav>
       <ul>

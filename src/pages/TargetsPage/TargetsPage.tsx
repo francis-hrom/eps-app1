@@ -1,9 +1,10 @@
 import React from "react";
 import "./TargetsPage.css";
+import TargetsTable from "../../components/TargetsTable/TargetsTable";
 
-const TargetsPage = () => (
+const TargetsPage = (): JSX.Element => (
   <div className="TargetsPage" data-testid="TargetsPage">
-    TargetsPage Component
+    <TargetsTable />
   </div>
 );
 

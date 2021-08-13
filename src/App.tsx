@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
-import Nav from "./components/Nav/Nav";
+
 import HomePage from "./pages/HomePage/HomePage";
 import TargetsPage from "./pages/TargetsPage/TargetsPage";
 import RankingsPage from "./pages/RankingsPage/RankingsPage";
+import Login from "./components/Login/Login";
 
-function App() {
+function App(): JSX.Element {
   return (
     <div className="App">
       <Router>
-        <Nav />
+        <Login />
         <Switch>
           <Route path="/targets">
             <TargetsPage />
