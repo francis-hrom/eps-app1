@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import MaterialTable from "material-table";
 import "./TargetsTable.css";
+import authHeader from "../../services/auth-header";
 const { REACT_APP_API } = process.env;
 
 const TargetsTable = (): JSX.Element => {
@@ -9,7 +10,7 @@ const TargetsTable = (): JSX.Element => {
 
   useEffect(() => {
     axios
-      .get(`${REACT_APP_API}/targets`)
+      .get(`${REACT_APP_API}/targets`, { headers: authHeader() })
       .then((response) => {
         setTargets(response.data);
       })

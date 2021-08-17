@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import MaterialTable from "material-table";
 import "./RankingsTable.css";
+import authHeader from "../../services/auth-header";
 const { REACT_APP_API } = process.env;
 
 const RankingsTable = (): JSX.Element => {
@@ -9,7 +10,7 @@ const RankingsTable = (): JSX.Element => {
 
   useEffect(() => {
     axios
-      .get(`${REACT_APP_API}/rankings`)
+      .get(`${REACT_APP_API}/rankings`, { headers: authHeader() })
       .then((response) => {
         setRankings(response.data);
       })

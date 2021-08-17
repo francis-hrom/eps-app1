@@ -7,7 +7,7 @@ import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import "./Login.css";
 
-import AuthService from "../../services/auth.service";
+import authService from "../../services/auth.service";
 import Nav from "../Nav/Nav";
 
 const Login = () => {
@@ -20,7 +20,7 @@ const Login = () => {
   const history = useHistory();
 
   useEffect(() => {
-    const user = AuthService.getCurrentUser();
+    const user = authService.getCurrentUser();
 
     if (user) {
       setCurrentUser(user);
@@ -30,27 +30,29 @@ const Login = () => {
     }
   }, []);
 
-  function validateForm() {
+  const validateForm = () => {
     return email.length > 0 && password.length > 0;
-  }
+  };
 
-  function handleSubmit(event: any) {
+  const handleSubmit = (event: any) => {
     event.preventDefault();
 
     setLoading(true);
-    AuthService.login(email, password)
+    authService
+      .login(email, password)
       .then(() => {
         setLoading(false);
         window.location.reload();
       })
       .catch((error: any) => {
-        setMessage(error.message);
+        console.error(error.response.data);
+        setMessage(error.response.data);
         setLoading(false);
       });
-  }
+  };
 
   const handleLogOut = () => {
-    AuthService.logout();
+    authService.logout();
     setCurrentUser({});
     window.location.reload();
     history.push("/");
@@ -59,44 +61,39 @@ const Login = () => {
   return (
     <div className="Login" data-testid="Login">
       {!isLoggedIn && (
-        <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="email">
-            <Form.Label>Email</Form.Label>
-            <br />
-            <Form.Control
-              autoFocus
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </Form.Group>
-          <Form.Group controlId="password">
-            <Form.Label>Password</Form.Label>
-            <br />
-            <Form.Control
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </Form.Group>
-          {loading && (
-            <Spinner animation="border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
-          )}
-          {!loading && (
-            <Button type="submit" disabled={!validateForm()}>
-              Login
-            </Button>
-          )}
-          {message && <Alert variant="danger">{message}</Alert>}
-        </Form>
-      )}
-
-      {isLoggedIn && (
-        <Button variant="primary" onClick={handleLogOut}>
-          Log Out
-        </Button>
+        <div className="loginForm">
+          <Form onSubmit={handleSubmit}>
+            <h4>Login</h4>
+            <Form.Group controlId="email">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                autoFocus
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group controlId="password">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Form.Group>
+            {loading && (
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            )}
+            {!loading && (
+              <Button type="submit" disabled={!validateForm()}>
+                Login
+              </Button>
+            )}
+            {message && <Alert variant="danger">{message}</Alert>}
+          </Form>
+        </div>
       )}
       {isLoggedIn && <Nav />}
     </div>
