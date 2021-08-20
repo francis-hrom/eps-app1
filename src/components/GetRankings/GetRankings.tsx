@@ -8,7 +8,7 @@ import "./GetRankings.css";
 import getRankings from "../../logic/getRankings";
 
 const GetRankings = (props: any, state: any): JSX.Element => {
-  const [message, setMessage] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
   const [url, setUrl] = useState(props.url || "");
   const [selector, setSelector] = useState(props.selector || "");
@@ -20,7 +20,7 @@ const GetRankings = (props: any, state: any): JSX.Element => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    setMessage("");
+    setErrorMsg("");
     setItems([]);
 
     try {
@@ -28,7 +28,7 @@ const GetRankings = (props: any, state: any): JSX.Element => {
       setItems(res.data);
     } catch (error) {
       console.error(error.response.data);
-      setMessage(JSON.stringify(error.response.data));
+      setErrorMsg(JSON.stringify(error.response.data));
     } finally {
       setLoading(false);
     }
@@ -83,7 +83,7 @@ const GetRankings = (props: any, state: any): JSX.Element => {
             <span className="visually-hidden">Loading...</span>
           </Spinner>
         )}
-        {message && <Alert variant="danger">{message}</Alert>}
+        {errorMsg && <Alert variant="danger">{errorMsg}</Alert>}
       </Form>
       {items.length > 0 ? (
         <Alert variant="success">
