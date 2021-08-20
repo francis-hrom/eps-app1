@@ -58,6 +58,11 @@ const Login = () => {
     history.push("/");
   };
 
+  const handleClick = async () => {
+    setEmail("demo@account.test");
+    setPassword("demotest");
+  };
+
   return (
     <div className="Login" data-testid="Login">
       {!isLoggedIn && (
@@ -87,10 +92,16 @@ const Login = () => {
               </Spinner>
             )}
             {!loading && (
-              <Button type="submit" disabled={!validateForm()}>
-                Login
-              </Button>
+              <div>
+                <Button type="submit" disabled={!validateForm()}>
+                  Login
+                </Button>
+                <Button variant="secondary" size="sm" onClick={handleClick}>
+                  Set default test data
+                </Button>
+              </div>
             )}
+
             {message && <Alert variant="danger">{message}</Alert>}
           </Form>
         </div>

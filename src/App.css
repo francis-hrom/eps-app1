@@ -3,6 +3,10 @@
   margin: 0 auto;
 }
 
+.App Button {
+  margin: 0.25rem;
+}
+
 /* .App {
   border: 10px solid red;
   width: 100%;

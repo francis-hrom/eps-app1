@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
@@ -7,11 +7,11 @@ import Spinner from "react-bootstrap/Spinner";
 import "./GetRankings.css";
 import getRankings from "../../logic/getRankings";
 
-const GetRankings = (): JSX.Element => {
+const GetRankings = (props: any, state: any): JSX.Element => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [url, setUrl] = useState("");
-  const [selector, setSelector] = useState("");
+  const [url, setUrl] = useState(props.url || "");
+  const [selector, setSelector] = useState(props.selector || "");
   const [items, setItems] = useState([]);
 
   const validateForm = () => {
@@ -20,6 +20,8 @@ const GetRankings = (): JSX.Element => {
 
   const handleSubmit = async () => {
     setLoading(true);
+    setMessage("");
+    setItems([]);
 
     try {
       const res = await getRankings(url, selector);
@@ -32,7 +34,7 @@ const GetRankings = (): JSX.Element => {
     }
   };
 
-  const handleClick = async () => {
+  const handleClick = () => {
     setUrl("https://webscraper.io/test-sites/e-commerce/allinone/phones/touch");
     setSelector(
       "html>body>div>div>div>div>div>div>div>div>h4>a:nth-of-type(1)"

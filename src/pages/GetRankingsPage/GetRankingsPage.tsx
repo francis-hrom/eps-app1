@@ -2,9 +2,9 @@ import React from "react";
 import GetRankings from "../../components/GetRankings/GetRankings";
 import "./GetRankingsPage.css";
 
-const GetRankingsPage = () => (
+const GetRankingsPage = (props: any) => (
   <div className="GetRankingsPage" data-testid="GetRankingsPage">
-    <GetRankings />
+    <GetRankings props={props} />
   </div>
 );
 

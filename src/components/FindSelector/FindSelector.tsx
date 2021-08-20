@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Alert from "react-bootstrap/Alert";
-import Spinner from "react-bootstrap/Spinner";
+import { Link } from "react-router-dom";
+import { Row, Form, Button, Alert, Spinner } from "react-bootstrap";
 
 import "./FindSelector.css";
 import getSelector from "../../logic/getSelector";
+import GetRankings from "../GetRankings/GetRankings";
 
 const FindSelector = (): JSX.Element => {
   const [message, setMessage] = useState("");
@@ -21,6 +20,8 @@ const FindSelector = (): JSX.Element => {
   const handleSubmit = async () => {
     const textArray = textArea.replace(/\r\n/g, "\n").split("\n");
     setLoading(true);
+    setMessage("");
+    setSelector("");
 
     try {
       const res = await getSelector(url, textArray);
@@ -33,7 +34,7 @@ const FindSelector = (): JSX.Element => {
     }
   };
 
-  const handleClick = async () => {
+  const handleSetDefault = () => {
     setUrl("https://webscraper.io/test-sites/e-commerce/allinone/phones/touch");
     setTextArea("Nokia 123" + "\n" + "LG Optimus" + "\n" + "Samsung Galaxy");
   };
@@ -45,7 +46,7 @@ const FindSelector = (): JSX.Element => {
         through the website and return the most statistically relevant selector
         which can be then used in Get Rankings.
       </p>
-      <Button variant="secondary" size="sm" onClick={handleClick}>
+      <Button variant="secondary" size="sm" onClick={handleSetDefault}>
         Set default test data
       </Button>
       <Form>
@@ -70,13 +71,15 @@ const FindSelector = (): JSX.Element => {
           </Form.Text>
         </Form.Group>
         {!loading && (
-          <Button
-            type="submit"
-            disabled={!validateForm()}
-            onClick={handleSubmit}
-          >
-            Find Selector
-          </Button>
+          <div>
+            <Button
+              type="submit"
+              disabled={!validateForm()}
+              onClick={handleSubmit}
+            >
+              Find Selector
+            </Button>
+          </div>
         )}
         {loading && (
           <Spinner animation="border" role="status">
@@ -85,7 +88,23 @@ const FindSelector = (): JSX.Element => {
         )}
         {message && <Alert variant="danger">{message}</Alert>}
       </Form>
-      {selector && <Alert variant="success">Selector: {selector}</Alert>}
+
+      {selector && (
+        <div>
+          <Alert variant="success">
+            <p>
+              <strong>
+                Selector found! <br />
+              </strong>
+              Url: <a href={url}>{url}</a> <br />
+              Selector: {selector}
+            </p>
+          </Alert>
+
+          <h4>Get Rankings:</h4>
+          <GetRankings url={url} selector={selector} />
+        </div>
+      )}
     </div>
   );
 };

@@ -30,12 +30,6 @@ const RankingsTable = (): JSX.Element => {
       title: "Rank",
       field: "rank",
     },
-    {
-      title: "Date",
-      field: "date",
-      render: (rowData: any) =>
-        new Date(rowData.date).toISOString().slice(0, 10),
-    },
   ];
 
   return (
