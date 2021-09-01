@@ -50,17 +50,15 @@ function App(): JSX.Element {
               <Route path="/rankings">
                 <RankingsPage />
               </Route>
-              <Container fluid="xxl">
-                <Route exact path="/">
-                  <HomePage />
-                </Route>
-                <Route path="/find-selector">
-                  <FindSelectorPage />
-                </Route>
-                <Route path="/get-rankings">
-                  <GetRankingsPage />
-                </Route>
-              </Container>
+              <Route exact path="/">
+                <HomePage />
+              </Route>
+              <Route path="/find-selector">
+                <FindSelectorPage />
+              </Route>
+              <Route path="/get-rankings">
+                <GetRankingsPage />
+              </Route>
             </Container>
           </div>
         </Switch>

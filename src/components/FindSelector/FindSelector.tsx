@@ -46,7 +46,7 @@ const FindSelector = (): JSX.Element => {
       <p>
         Provide url link to a website and list of relevant items. It will search
         through the website and return the most statistically relevant selector
-        which can be then used in Get Rankings.
+        which can be then used for Get Rankings.
       </p>
 
       <Form>
