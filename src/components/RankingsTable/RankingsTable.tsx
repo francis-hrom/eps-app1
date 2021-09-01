@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import MaterialTable from "material-table";
-import "./RankingsTable.css";
+import Alert from "@material-ui/lab/Alert";
+
 import authHeader from "../../services/auth-header";
 const { REACT_APP_API } = process.env;
 
 const RankingsTable = (): JSX.Element => {
   const [rankings, setRankings] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     axios
@@ -14,7 +16,9 @@ const RankingsTable = (): JSX.Element => {
       .then((response) => {
         setRankings(response.data);
       })
-      .catch((e) => console.error(e));
+      .catch((error) => {
+        setErrorMessage("Server error. Please contact administrator.");
+      });
   }, []);
 
   const columns = [
@@ -47,10 +51,13 @@ const RankingsTable = (): JSX.Element => {
         }}
         localization={{
           body: {
-            emptyDataSourceMessage: <p>Loading data ...</p>,
+            emptyDataSourceMessage: (
+              <p>{errorMessage ? "SERVER ERROR" : "Loading data ..."}</p>
+            ),
           },
         }}
       />
+      {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
     </div>
   );
 };

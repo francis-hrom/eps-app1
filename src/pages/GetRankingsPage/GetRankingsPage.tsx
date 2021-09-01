@@ -1,8 +1,7 @@
 import React from "react";
 import GetRankings from "../../components/GetRankings/GetRankings";
-import "./GetRankingsPage.css";
 
-const GetRankingsPage = (props: any) => (
+const GetRankingsPage = (props: any): JSX.Element => (
   <div className="GetRankingsPage" data-testid="GetRankingsPage">
     <GetRankings props={props} />
   </div>

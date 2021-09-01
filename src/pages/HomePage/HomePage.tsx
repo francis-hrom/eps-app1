@@ -1,13 +1,11 @@
 import React from "react";
 
-import "./HomePage.css";
-
 const HomePage = (): JSX.Element => (
   <div className="HomePage" data-testid="HomePage">
     <h1>Welcome to EPS!</h1>
     <p>
-      EPS (Element Position Scanner) can be used to scan order of positions
-      (rankings) of elements (items) from any website.
+      EPS (Element Position Scanner) gives possibility to scan order of
+      positions (rankings) of elements (items) from any website.
     </p>
     <p>
       Main inputs are url link to the target web page and CSS selector which

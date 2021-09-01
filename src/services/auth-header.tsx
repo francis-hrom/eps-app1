@@ -10,6 +10,7 @@ export default function authHeader(): any {
 }
 
 /*
+// for  back-end other than Node.js Express
 export default function authHeader() {
   const user = JSON.parse(localStorage.getItem('user'));
 
@@ -19,5 +20,4 @@ export default function authHeader() {
     return {};
   }
 }
-
 */

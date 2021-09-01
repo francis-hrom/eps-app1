@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { Row, Form, Button, Alert, Spinner } from "react-bootstrap";
+import { Form } from "react-bootstrap";
+import { Button, CircularProgress } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
+import SearchIcon from "@material-ui/icons/Search";
+import AssistantIcon from "@material-ui/icons/Assistant";
 
-import "./FindSelector.css";
 import getSelector from "../../logic/getSelector";
 import GetRankings from "../GetRankings/GetRankings";
 
 const FindSelector = (): JSX.Element => {
-  const [message, setMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [url, setUrl] = useState("");
   const [textArea, setTextArea] = useState("");
@@ -20,7 +22,7 @@ const FindSelector = (): JSX.Element => {
   const handleSubmit = async () => {
     const textArray = textArea.replace(/\r\n/g, "\n").split("\n");
     setLoading(true);
-    setMessage("");
+    setErrorMessage("");
     setSelector("");
 
     try {
@@ -28,7 +30,7 @@ const FindSelector = (): JSX.Element => {
       setSelector(res.data);
     } catch (error) {
       console.error(error.response.data);
-      setMessage(JSON.stringify(error.response.data));
+      setErrorMessage(JSON.stringify(error.response.data));
     } finally {
       setLoading(false);
     }
@@ -46,9 +48,7 @@ const FindSelector = (): JSX.Element => {
         through the website and return the most statistically relevant selector
         which can be then used in Get Rankings.
       </p>
-      <Button variant="secondary" size="sm" onClick={handleSetDefault}>
-        Set default test data
-      </Button>
+
       <Form>
         <Form.Group controlId="url">
           <Form.Label>Url</Form.Label>
@@ -71,27 +71,32 @@ const FindSelector = (): JSX.Element => {
           </Form.Text>
         </Form.Group>
         {!loading && (
-          <div>
+          <>
             <Button
-              type="submit"
+              variant="contained"
+              color="primary"
               disabled={!validateForm()}
               onClick={handleSubmit}
+              startIcon={<SearchIcon />}
             >
               Find Selector
             </Button>
-          </div>
+            <Button
+              variant="contained"
+              onClick={handleSetDefault}
+              startIcon={<AssistantIcon />}
+            >
+              Set test data
+            </Button>
+          </>
         )}
-        {loading && (
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        )}
-        {message && <Alert variant="danger">{message}</Alert>}
       </Form>
+      {loading && <CircularProgress />}
+      {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
 
       {selector && (
         <div>
-          <Alert variant="success">
+          <Alert severity="success">
             <p>
               <strong>
                 Selector found! <br />

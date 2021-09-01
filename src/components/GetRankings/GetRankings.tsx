@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Alert from "react-bootstrap/Alert";
-import Spinner from "react-bootstrap/Spinner";
 
-import "./GetRankings.css";
+import { Button, CircularProgress } from "@material-ui/core";
+import LocationSearchingIcon from "@material-ui/icons/LocationSearching";
+import AssistantIcon from "@material-ui/icons/Assistant";
+import Alert from "@material-ui/lab/Alert";
+
 import getRankings from "../../logic/getRankings";
 
 const GetRankings = (props: any, state: any): JSX.Element => {
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [url, setUrl] = useState(props.url || "");
   const [selector, setSelector] = useState(props.selector || "");
@@ -20,7 +21,7 @@ const GetRankings = (props: any, state: any): JSX.Element => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    setErrorMsg("");
+    setErrorMessage("");
     setItems([]);
 
     try {
@@ -28,13 +29,13 @@ const GetRankings = (props: any, state: any): JSX.Element => {
       setItems(res.data);
     } catch (error) {
       console.error(error.response.data);
-      setErrorMsg(JSON.stringify(error.response.data));
+      setErrorMessage(JSON.stringify(error.response.data));
     } finally {
       setLoading(false);
     }
   };
 
-  const handleClick = () => {
+  const handleSetDefault = () => {
     setUrl("https://webscraper.io/test-sites/e-commerce/allinone/phones/touch");
     setSelector(
       "html>body>div>div>div>div>div>div>div>div>h4>a:nth-of-type(1)"
@@ -49,9 +50,7 @@ const GetRankings = (props: any, state: any): JSX.Element => {
         It renders a full web page within a browser so the whole process might
         take a while.
       </p>
-      <Button variant="secondary" size="sm" onClick={handleClick}>
-        Set default test data
-      </Button>
+
       <Form>
         <Form.Group controlId="url">
           <Form.Label>Url</Form.Label>
@@ -70,32 +69,41 @@ const GetRankings = (props: any, state: any): JSX.Element => {
           />
         </Form.Group>
         {!loading && (
-          <Button
-            type="submit"
-            disabled={!validateForm()}
-            onClick={handleSubmit}
-          >
-            Get Rankings
-          </Button>
+          <>
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={!validateForm()}
+              onClick={handleSubmit}
+              startIcon={<LocationSearchingIcon />}
+            >
+              Get Rankings
+            </Button>
+            <Button
+              variant="contained"
+              onClick={handleSetDefault}
+              startIcon={<AssistantIcon />}
+            >
+              Set test data
+            </Button>
+          </>
         )}
-        {loading && (
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        )}
-        {errorMsg && <Alert variant="danger">{errorMsg}</Alert>}
       </Form>
-      {items.length > 0 ? (
-        <Alert variant="success">
-          <p>Rankings:</p>
-          <ol>
-            {items.map((el, i) => (
-              <li key={i}>{el}</li>
-            ))}
-          </ol>
+      {loading && <CircularProgress />}
+      {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+
+      {items.length > 0 && (
+        <Alert severity="success">
+          <p>
+            Url: <a href={url}>{url}</a> <br />
+            Rankings: <br />
+            <ol>
+              {items.map((el, i) => (
+                <li key={i}>{el}</li>
+              ))}
+            </ol>
+          </p>
         </Alert>
-      ) : (
-        ""
       )}
     </div>
   );
