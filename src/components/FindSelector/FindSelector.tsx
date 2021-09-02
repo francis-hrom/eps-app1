@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import validUrl from "valid-url";
 import { Form } from "react-bootstrap";
 import { Button, CircularProgress } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
@@ -19,21 +20,29 @@ const FindSelector = (): JSX.Element => {
     return url.length > 0 && textArea.length > 0;
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     const textArray = textArea.replace(/\r\n/g, "\n").split("\n");
     setLoading(true);
     setErrorMessage("");
     setSelector("");
 
-    try {
-      const res = await getSelector(url, textArray);
-      setSelector(res.data);
-    } catch (error) {
-      console.error(error.response.data);
-      setErrorMessage(JSON.stringify(error.response.data));
-    } finally {
+    if (!url || !validUrl.isUri(url)) {
+      setErrorMessage("Please enter valid url.");
       setLoading(false);
+      return;
     }
+
+    (async () => {
+      try {
+        const res = await getSelector(url, textArray);
+        setSelector(res.data);
+      } catch (error) {
+        console.error(error.response.data);
+        setErrorMessage(JSON.stringify(error.response.data));
+      } finally {
+        setLoading(false);
+      }
+    })();
   };
 
   const handleSetDefault = () => {
