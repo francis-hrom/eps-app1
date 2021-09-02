@@ -35,8 +35,11 @@ const GetRankings = (props: any, state: any): JSX.Element => {
         const res = await getRankings(url, selector);
         setItems(res.data);
       } catch (error) {
-        console.error(error.response.data);
-        setErrorMessage(JSON.stringify(error.response.data));
+        if (!error.response) {
+          setErrorMessage("Server error. Please contact administrator.");
+        } else {
+          setErrorMessage(error.response.data);
+        }
       } finally {
         setLoading(false);
       }
