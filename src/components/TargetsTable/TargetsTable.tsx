@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import validUrl from "valid-url";
 import { Button, CircularProgress } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import RestoreFromTrashIcon from "@material-ui/icons/RestoreFromTrash";
 import MaterialTable, { Column } from "material-table";
 
-import authHeader from "../../services/auth-header";
+import getAllTargets from "../../logic/getAllTargets";
+import addTarget from "../../logic/addTarget";
+import editTarget from "../../logic/editTarget";
+import deleteTarget from "../../logic/deleteTarget";
+import resetTargets from "../../logic/resetTargets";
+
+import authHeader from "../../services/authHeader";
 const { REACT_APP_API } = process.env;
 
 const TargetsTable = (): JSX.Element => {
@@ -26,14 +33,14 @@ const TargetsTable = (): JSX.Element => {
   ];
 
   useEffect(() => {
-    axios
-      .get(`${REACT_APP_API}/targets`, { headers: authHeader() })
-      .then((response) => {
+    (async () => {
+      try {
+        const response = await getAllTargets();
         setData(response.data);
-      })
-      .catch((error) =>
-        setErrorMessages(["Server error. Please contact administrator."])
-      );
+      } catch {
+        setErrorMessages(["Server error. Please contact administrator."]);
+      }
+    })();
   }, []);
 
   const handleRowAdd = (newData: any, resolve: any) => {
@@ -42,7 +49,7 @@ const TargetsTable = (): JSX.Element => {
     //validation
     const errorList = [];
     const { url, selector } = newData;
-    if (!url) {
+    if (!url || !validUrl.isUri(url)) {
       errorList.push("Please enter valid url.");
     }
     if (!selector) {
@@ -53,22 +60,22 @@ const TargetsTable = (): JSX.Element => {
       setErrorMessages(errorList);
       resolve();
     } else {
-      axios
-        .post(
-          `${REACT_APP_API}/targets`,
-          { url, selector },
-          { headers: authHeader() }
-        )
-        .then((res) => {
+      (async () => {
+        try {
+          await addTarget(url, selector);
           const dataToAdd = [...data];
           dataToAdd.push(newData);
           setData(dataToAdd);
+        } catch (error) {
+          if (!error.response) {
+            setErrorMessages(["Server error. Please contact administrator."]);
+          } else {
+            setErrorMessages([error.response.data]);
+          }
+        } finally {
           resolve();
-        })
-        .catch((error) => {
-          setErrorMessages([error]);
-          resolve();
-        });
+        }
+      })();
     }
   };
 
@@ -86,44 +93,44 @@ const TargetsTable = (): JSX.Element => {
       setErrorMessages(errorList);
       resolve();
     } else {
-      axios
-        .patch(
-          `${REACT_APP_API}/targets/${_id}`,
-          { selector },
-          { headers: authHeader() }
-        )
-        .then((res) => {
+      (async () => {
+        try {
+          await editTarget(_id, selector);
           const dataUpdate = [...data];
           const index = oldData.tableData.id;
           dataUpdate[index] = newData;
           setData([...dataUpdate]);
+        } catch (error) {
+          if (!error.response) {
+            setErrorMessages(["Server error. Please contact administrator."]);
+          } else {
+            setErrorMessages([error.response.data]);
+          }
+        } finally {
           resolve();
-        })
-        .catch((error) => {
-          setErrorMessages([error]);
-          resolve();
-        });
+        }
+      })();
     }
   };
 
-  const handleRowDelete = (oldData: any, resolve: any) => {
+  const handleRowDelete = async (oldData: any, resolve: any) => {
     setErrorMessages([]);
 
-    axios
-      .delete(`${REACT_APP_API}/targets/${oldData._id}`, {
-        headers: authHeader(),
-      })
-      .then((res) => {
-        const dataDelete = [...data];
-        const index = oldData.tableData.id;
-        dataDelete.splice(index, 1);
-        setData([...dataDelete]);
-        resolve();
-      })
-      .catch((error) => {
-        setErrorMessages([error]);
-        resolve();
-      });
+    try {
+      await deleteTarget(oldData._id);
+      const dataDelete = [...data];
+      const index = oldData.tableData.id;
+      dataDelete.splice(index, 1);
+      setData([...dataDelete]);
+    } catch (error) {
+      if (!error.response) {
+        setErrorMessages(["Server error. Please contact administrator."]);
+      } else {
+        setErrorMessages([error.response.data]);
+      }
+    } finally {
+      resolve();
+    }
   };
 
   const handleSetDefault = () => {
@@ -134,29 +141,30 @@ const TargetsTable = (): JSX.Element => {
       setLoading(true);
       setErrorMessages([]);
 
-      axios
-        .post(
-          `${REACT_APP_API}/targets/reset-to-default-data`,
-          {},
-          { headers: authHeader() }
-        )
-        .then((res) => {
-          setData(res.data);
+      (async () => {
+        try {
+          const response = await resetTargets();
+          setData(response.data);
           alert(
             "Data has been reset to defaults successfully! This reset functionality is here just for the testing purposes (in production it would be removed, in order to prevent unwanted data deletion by an user)."
           );
-        })
-        .catch((error) => {
-          setErrorMessages([error]);
-        })
-        .finally(() => setLoading(false));
+        } catch (error) {
+          if (!error.response) {
+            setErrorMessages(["Server error. Please contact administrator."]);
+          } else {
+            setErrorMessages([error.response.data]);
+          }
+        } finally {
+          setLoading(false);
+        }
+      })();
     }
   };
 
   return (
     <div className="TargetsTable" data-testid="TargetsTable">
       <MaterialTable
-        title="Targets"
+        title="Targets Table"
         data={data}
         columns={columns}
         options={{

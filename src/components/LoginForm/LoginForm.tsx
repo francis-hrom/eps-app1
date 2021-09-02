@@ -47,7 +47,7 @@ const LoginForm = (): JSX.Element => {
     return email.length > 0 && password.length > 0;
   };
 
-  const handleSetDefault = async () => {
+  const handleSetDefault = () => {
     setEmail("ada@lovelace.test");
     setPassword("FIRSTprogrammer!");
   };

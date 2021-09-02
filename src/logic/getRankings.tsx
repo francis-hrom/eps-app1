@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import authHeader from "../services/auth-header";
+import authHeader from "../services/authHeader";
 
 const API_URL = process.env.REACT_APP_API;
 

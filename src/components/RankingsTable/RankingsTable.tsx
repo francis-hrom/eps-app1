@@ -1,24 +1,22 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import MaterialTable from "material-table";
 import Alert from "@material-ui/lab/Alert";
 
-import authHeader from "../../services/auth-header";
-const { REACT_APP_API } = process.env;
+import getAllRankings from "../../logic/getAllRankings";
 
 const RankingsTable = (): JSX.Element => {
   const [rankings, setRankings] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    axios
-      .get(`${REACT_APP_API}/rankings`, { headers: authHeader() })
-      .then((response) => {
+    (async () => {
+      try {
+        const response = await getAllRankings();
         setRankings(response.data);
-      })
-      .catch((error) => {
+      } catch {
         setErrorMessage("Server error. Please contact administrator.");
-      });
+      }
+    })();
   }, []);
 
   const columns = [
@@ -39,7 +37,7 @@ const RankingsTable = (): JSX.Element => {
   return (
     <div className="RankingsTable" data-testid="RankingsTable">
       <MaterialTable
-        title="Rankings"
+        title="Rankings Table"
         data={rankings}
         columns={columns}
         options={{
