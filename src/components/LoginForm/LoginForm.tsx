@@ -13,7 +13,7 @@ import LockOpenIcon from "@material-ui/icons/LockOpen";
 import AssistantIcon from "@material-ui/icons/Assistant";
 import Alert from "@material-ui/lab/Alert";
 
-import authService from "../../services/auth.service";
+import authService from "../../services/users/auth.service";
 
 const LoginForm = (): JSX.Element => {
   const [email, setEmail] = useState("");

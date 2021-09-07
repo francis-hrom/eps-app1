@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import MaterialTable from "material-table";
 import Alert from "@material-ui/lab/Alert";
 
-import getAllRankings from "../../logic/getAllRankings";
+import getAllRankings from "../../services/rankings/getAllRankings";
 
 const RankingsTable = (): JSX.Element => {
   const [rankings, setRankings] = useState([]);
@@ -11,10 +11,11 @@ const RankingsTable = (): JSX.Element => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await getAllRankings();
-        setRankings(response.data);
-      } catch {
-        setErrorMessage("Server error. Please contact administrator.");
+        const rankings = await getAllRankings();
+
+        setRankings(rankings);
+      } catch (error: any) {
+        setErrorMessage(error.message);
       }
     })();
   }, []);

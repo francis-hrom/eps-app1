@@ -5,7 +5,7 @@ import Container from "react-bootstrap/Container";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
-import authService from "../../services/auth.service";
+import authService from "../../services/users/auth.service";
 
 const Navigation = (): JSX.Element => {
   const handleLogOut = () => {
@@ -28,7 +28,7 @@ const Navigation = (): JSX.Element => {
             <Nav.Link href="/targets">Targets</Nav.Link>
             <Nav.Link href="/rankings">Rankings</Nav.Link>
             <Nav.Link href="/find-selector">Find Selector</Nav.Link>
-            <Nav.Link href="/get-rankings">Get Rankings</Nav.Link>
+            <Nav.Link href="/scan-rankings">Scan Rankings</Nav.Link>
           </Nav>
           <Nav className="justify-content-end">
             <Nav.Link href="/" onClick={handleLogOut}>

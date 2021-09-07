@@ -6,8 +6,8 @@ import Alert from "@material-ui/lab/Alert";
 import SearchIcon from "@material-ui/icons/Search";
 import AssistantIcon from "@material-ui/icons/Assistant";
 
-import getSelector from "../../logic/getSelector";
-import GetRankings from "../GetRankings/GetRankings";
+import findSelector from "../../services/findSelector";
+import ScanRankings from "../ScanRankings/ScanRankings";
 
 const FindSelector = (): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -34,14 +34,11 @@ const FindSelector = (): JSX.Element => {
 
     (async () => {
       try {
-        const res = await getSelector(url, textArray);
-        setSelector(res.data);
-      } catch (error) {
-        if (!error.response) {
-          setErrorMessage("Server error. Please contact administrator.");
-        } else {
-          setErrorMessage(error.response.data);
-        }
+        const foundSelector = await findSelector(url, textArray);
+
+        setSelector(foundSelector);
+      } catch (error: any) {
+        setErrorMessage(error.message);
       } finally {
         setLoading(false);
       }
@@ -50,7 +47,7 @@ const FindSelector = (): JSX.Element => {
 
   const handleSetDefault = () => {
     setUrl("https://webscraper.io/test-sites/e-commerce/allinone/phones/touch");
-    setTextArea("Nokia 123" + "\n" + "LG Optimus" + "\n" + "Samsung Galaxy");
+    setTextArea("Nokia 123\nLG Optimus\nSamsung Galaxy");
   };
 
   return (
@@ -58,7 +55,7 @@ const FindSelector = (): JSX.Element => {
       <p>
         Provide url link to a website and list of relevant items. It will search
         through the website and return the most statistically relevant selector
-        which can be then used for Get Rankings.
+        which can be then used for Scan Rankings.
       </p>
 
       <Form>
@@ -118,8 +115,8 @@ const FindSelector = (): JSX.Element => {
             </p>
           </Alert>
 
-          <h4>Get Rankings:</h4>
-          <GetRankings url={url} selector={selector} />
+          <h4>Scan Rankings:</h4>
+          <ScanRankings url={url} selector={selector} />
         </div>
       )}
     </div>

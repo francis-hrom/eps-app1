@@ -6,14 +6,14 @@ import LocationSearchingIcon from "@material-ui/icons/LocationSearching";
 import AssistantIcon from "@material-ui/icons/Assistant";
 import Alert from "@material-ui/lab/Alert";
 
-import getRankings from "../../logic/getRankings";
+import scanRankings from "../../services/scanRankings";
 
-const GetRankings = (props: any, state: any): JSX.Element => {
+const ScanRankingsComponent = (props: any, state: any): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [url, setUrl] = useState(props.url || "");
   const [selector, setSelector] = useState(props.selector || "");
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<string[]>([]);
 
   const validateForm = () => {
     return url.length > 0 && selector.length > 0;
@@ -32,14 +32,11 @@ const GetRankings = (props: any, state: any): JSX.Element => {
 
     (async () => {
       try {
-        const res = await getRankings(url, selector);
-        setItems(res.data);
-      } catch (error) {
-        if (!error.response) {
-          setErrorMessage("Server error. Please contact administrator.");
-        } else {
-          setErrorMessage(error.response.data);
-        }
+        const rankings = await scanRankings(url, selector);
+
+        setItems(rankings);
+      } catch (error: any) {
+        setErrorMessage(error.message);
       } finally {
         setLoading(false);
       }
@@ -54,7 +51,7 @@ const GetRankings = (props: any, state: any): JSX.Element => {
   };
 
   return (
-    <div className="GetRankings" data-testid="GetRankings">
+    <div className="ScanRankings" data-testid="ScanRankings">
       <p>
         Provide url link to a website and selector targeting relevant items. It
         access the webpage, get the list of items and display the rankings list.
@@ -88,7 +85,7 @@ const GetRankings = (props: any, state: any): JSX.Element => {
               onClick={handleSubmit}
               startIcon={<LocationSearchingIcon />}
             >
-              Get Rankings
+              Scan Rankings
             </Button>
             <Button
               variant="contained"
@@ -120,4 +117,4 @@ const GetRankings = (props: any, state: any): JSX.Element => {
   );
 };
 
-export default GetRankings;
+export default ScanRankingsComponent;

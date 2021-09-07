@@ -8,7 +8,7 @@ import {
 import "bootstrap/dist/css/bootstrap.css";
 import Container from "react-bootstrap/Container";
 import "./App.css";
-import authService from "./services/auth.service";
+import authService from "./services/users/auth.service";
 
 import Navigation from "./components/Navigation/Navigation";
 import LoginPage from "./pages/LoginPage/LoginPage";
@@ -16,7 +16,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import TargetsPage from "./pages/TargetsPage/TargetsPage";
 import RankingsPage from "./pages/RankingsPage/RankingsPage";
 import FindSelectorPage from "./pages/FindSelectorPage/FindSelectorPage";
-import GetRankingsPage from "./pages/GetRankingsPage/GetRankingsPage";
+import ScanRankingsPage from "./pages/ScanRankingsPage/ScanRankingsPage";
 
 function App(): JSX.Element {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -56,8 +56,8 @@ function App(): JSX.Element {
               <Route path="/find-selector">
                 <FindSelectorPage />
               </Route>
-              <Route path="/get-rankings">
-                <GetRankingsPage />
+              <Route path="/scan-rankings">
+                <ScanRankingsPage />
               </Route>
             </Container>
           </div>
