@@ -9,12 +9,8 @@ import authService from "../../services/users/auth.service";
 
 const Navigation = (): JSX.Element => {
   const handleLogOut = () => {
-    const confirmation = confirm("Do you want to log out?");
-
-    if (confirmation) {
-      authService.logout();
-      window.location.reload();
-    }
+    authService.logout();
+    window.location.reload();
   };
 
   return (
