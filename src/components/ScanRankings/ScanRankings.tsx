@@ -53,10 +53,10 @@ const ScanRankings = (props: any, state: any): JSX.Element => {
   return (
     <div className="ScanRankings" data-testid="ScanRankings">
       <p>
-        Provide url link to a website and selector targeting relevant items. It
-        access the webpage, get the list of items and display the rankings list.
-        It renders a full web page within a browser so the whole process might
-        take a while.
+        Scan Rankings tool needs as input an url link to a web page and selector
+        targeting relevant items. It access the webpage, get the list of items
+        and display the rankings list. It renders a full web page within a
+        browser so the whole process might take a while.
       </p>
 
       <Form>
