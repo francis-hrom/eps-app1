@@ -14,6 +14,7 @@
     "@types/react-router": "^5.1.16",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.2",
+    "dotenv": "^10.0.0",
     "generate-react-cli": "^7.0.4",
     "material-table": "^1.69.3",
     "react": "^17.0.2",
