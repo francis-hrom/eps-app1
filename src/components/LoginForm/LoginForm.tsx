@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import Form from "react-bootstrap/Form";
-
-import Spinner from "react-bootstrap/Spinner";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 

@@ -9,7 +9,6 @@ describe("auth.service", () => {
   const fakeUser = {
     user: {
       email: "ada@lovelace.test",
-      password: "$2a$10$j95TM0xWVcey.EbLEm4KC.7FtfAqGUcr1SgsZLRlDkevV894UQ77G",
       id: "6127c1deb3fc813d6c55ce20",
     },
     accessToken:

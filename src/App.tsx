@@ -34,7 +34,7 @@ function App(): JSX.Element {
   }, []);
 
   return (
-    <div className="App">
+    <div className="App" data-testid="App">
       <Router>
         <Switch>
           <Route path="/login">
