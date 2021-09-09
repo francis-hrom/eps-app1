@@ -115,7 +115,11 @@ const FindSelector = (): JSX.Element => {
               <strong>
                 Selector found! <br />
               </strong>
-              Url: <a href={url}>{url}</a> <br />
+              Url:
+              <a href={url} target="_blank" rel="noopener noreferrer">
+                {url}
+              </a>
+              <br />
               Selector: {selector}
             </p>
           </Alert>

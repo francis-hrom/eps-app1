@@ -107,7 +107,11 @@ const ScanRankings = (props: any, state: any): JSX.Element => {
       {items.length > 0 && (
         <Alert severity="success">
           <p>
-            Url: <a href={url}>{url}</a> <br />
+            Url:
+            <a href={url} target="_blank" rel="noopener noreferrer">
+              {url}
+            </a>
+            <br />
             Rankings: <br />
             <ol>
               {items.map((el, i) => (
