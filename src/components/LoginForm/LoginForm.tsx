@@ -8,14 +8,13 @@ import Row from "react-bootstrap/Row";
 import { Button, CircularProgress } from "@material-ui/core";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
-import AssistantIcon from "@material-ui/icons/Assistant";
 import Alert from "@material-ui/lab/Alert";
 
 import authService from "../../services/users/auth.service";
 
 const LoginForm = (): JSX.Element => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("ada@lovelace.test");
+  const [password, setPassword] = useState("FIRSTprogrammer!");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const history = useHistory();
@@ -43,11 +42,6 @@ const LoginForm = (): JSX.Element => {
 
   const validateForm = () => {
     return email.length > 0 && password.length > 0;
-  };
-
-  const handleSetDefault = () => {
-    setEmail("ada@lovelace.test");
-    setPassword("FIRSTprogrammer!");
   };
 
   return (
@@ -82,24 +76,15 @@ const LoginForm = (): JSX.Element => {
               />
             </Form.Group>
             {!loading && (
-              <>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  disabled={!validateForm()}
-                  type="submit"
-                  startIcon={<LockOpenIcon />}
-                >
-                  Login
-                </Button>
-                <Button
-                  variant="contained"
-                  onClick={handleSetDefault}
-                  startIcon={<AssistantIcon />}
-                >
-                  Set test data
-                </Button>
-              </>
+              <Button
+                variant="contained"
+                color="primary"
+                disabled={!validateForm()}
+                type="submit"
+                startIcon={<LockOpenIcon />}
+              >
+                Login
+              </Button>
             )}
           </Form>
           {loading && <CircularProgress />}
