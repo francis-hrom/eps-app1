@@ -11,8 +11,14 @@ import scanRankings from "../../services/scanRankings";
 const ScanRankings = (props: any, state: any): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [url, setUrl] = useState(props.url || "");
-  const [selector, setSelector] = useState(props.selector || "");
+  const [url, setUrl] = useState(
+    props.url ||
+      "https://webscraper.io/test-sites/e-commerce/allinone/phones/touch"
+  );
+  const [selector, setSelector] = useState(
+    props.selector ||
+      "html>body>div>div>div>div>div>div>div>div>h4>a:nth-of-type(1)"
+  );
   const [items, setItems] = useState<string[]>([]);
 
   const validateForm = () => {
@@ -44,10 +50,8 @@ const ScanRankings = (props: any, state: any): JSX.Element => {
   };
 
   const handleSetDefault = () => {
-    setUrl("https://webscraper.io/test-sites/e-commerce/allinone/phones/touch");
-    setSelector(
-      "html>body>div>div>div>div>div>div>div>div>h4>a:nth-of-type(1)"
-    );
+    setUrl("");
+    setSelector("");
   };
 
   return (
@@ -92,7 +96,7 @@ const ScanRankings = (props: any, state: any): JSX.Element => {
               onClick={handleSetDefault}
               startIcon={<AssistantIcon />}
             >
-              Set test data
+              Remove test data
             </Button>
           </>
         )}

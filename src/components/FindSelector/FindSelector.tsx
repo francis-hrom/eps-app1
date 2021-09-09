@@ -12,8 +12,12 @@ import ScanRankings from "../ScanRankings/ScanRankings";
 const FindSelector = (): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [url, setUrl] = useState("");
-  const [textArea, setTextArea] = useState("");
+  const [url, setUrl] = useState(
+    "https://webscraper.io/test-sites/e-commerce/allinone/phones/touch"
+  );
+  const [textArea, setTextArea] = useState(
+    "Nokia 123\nLG Optimus\nSamsung Galaxy"
+  );
   const [selector, setSelector] = useState("");
 
   const validateForm = () => {
@@ -46,17 +50,17 @@ const FindSelector = (): JSX.Element => {
   };
 
   const handleSetDefault = () => {
-    setUrl("https://webscraper.io/test-sites/e-commerce/allinone/phones/touch");
-    setTextArea("Nokia 123\nLG Optimus\nSamsung Galaxy");
+    setUrl("");
+    setTextArea("");
   };
 
   return (
     <div className="FindSelector" data-testid="FindSelector">
       <p>
         Find Selector tool needs as input an url link to a web page and list of
-        relevant items (text). It will search through the web page and return the
-        most statistically relevant selector, which can be then used for Scan
-        Rankings tool.
+        relevant items (text). It will search through the web page and return
+        the most statistically relevant selector, which can be then used for
+        Scan Rankings tool.
       </p>
 
       <Form>
@@ -96,7 +100,7 @@ const FindSelector = (): JSX.Element => {
               onClick={handleSetDefault}
               startIcon={<AssistantIcon />}
             >
-              Set test data
+              Remove test data
             </Button>
           </>
         )}
