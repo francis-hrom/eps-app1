@@ -5,7 +5,16 @@
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta name="description" content="EPS - Element Position Scanner" />
+    <meta
+      name="description"
+      content="EPS (Element Position Scanner) is tool for businesses to
+    efficiently monitor positions (rankings) of their products (and
+    their competitors) on other websites."
+    />
+    <meta
+      name="keywords"
+      content="eps, element position scanner, data scraping"
+    />
     <!-- <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" /> -->
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -27,6 +36,10 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>EPS</title>
+    <!-- wake up API -->
+    <script>
+      fetch("https://eps-fh.herokuapp.com/users/test");
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
