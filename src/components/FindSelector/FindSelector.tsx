@@ -5,6 +5,7 @@ import { Button, CircularProgress } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import SearchIcon from "@material-ui/icons/Search";
 import AssistantIcon from "@material-ui/icons/Assistant";
+import { Link } from "react-router-dom";
 
 import findSelector from "../../services/findSelector";
 import ScanRankings from "../ScanRankings/ScanRankings";
@@ -57,10 +58,13 @@ const FindSelector = (): JSX.Element => {
   return (
     <div className="FindSelector" data-testid="FindSelector">
       <p>
-        Find Selector tool needs as input an url link to a web page and list of
-        relevant items (text). It will search through the web page and return
-        the most statistically relevant selector, which can be then used for
-        Scan Rankings tool.
+        Find Selector tool helps users without technical knowledge of HTML/CSS
+        to find relevant Selector. User enters url (target web page) and list of
+        relevant items (text from the web page). Then EPS visits the web page,
+        evaluates all possible options and return the most statistically
+        relevant selector, which can be then verified via{" "}
+        <Link to="/verify-selector">Verify Selector</Link> and saved to database
+        (<Link to="/targets">Targets</Link>).
       </p>
 
       <Form>
@@ -124,7 +128,7 @@ const FindSelector = (): JSX.Element => {
             </p>
           </Alert>
 
-          <h4>Scan Rankings:</h4>
+          <h4>Verify Selector</h4>
           <ScanRankings url={url} selector={selector} />
         </div>
       )}

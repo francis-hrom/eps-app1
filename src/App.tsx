@@ -56,7 +56,7 @@ function App(): JSX.Element {
               <Route path="/find-selector">
                 <FindSelectorPage />
               </Route>
-              <Route path="/scan-rankings">
+              <Route path="/verify-selector">
                 <ScanRankingsPage />
               </Route>
             </Container>

@@ -4,9 +4,12 @@ import Form from "react-bootstrap/Form";
 import { Button, CircularProgress } from "@material-ui/core";
 import LocationSearchingIcon from "@material-ui/icons/LocationSearching";
 import AssistantIcon from "@material-ui/icons/Assistant";
+import SaveIcon from "@material-ui/icons/Save";
 import Alert from "@material-ui/lab/Alert";
+import { Link } from "react-router-dom";
 
 import scanRankings from "../../services/scanRankings";
+import addTarget from "../../services/targets/addTarget";
 
 const ScanRankings = (props: any, state: any): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -20,15 +23,17 @@ const ScanRankings = (props: any, state: any): JSX.Element => {
       "html>body>div>div>div>div>div>div>div>div>h4>a:nth-of-type(1)"
   );
   const [items, setItems] = useState<string[]>([]);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const validateForm = () => {
     return url.length > 0 && selector.length > 0;
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     setLoading(true);
     setErrorMessage("");
     setItems([]);
+    setSuccessMessage("");
 
     if (!url || !validUrl.isUri(url)) {
       setErrorMessage("Please enter valid url.");
@@ -49,6 +54,24 @@ const ScanRankings = (props: any, state: any): JSX.Element => {
     })();
   };
 
+  const handleSave = async () => {
+    setLoading(true);
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    try {
+      await addTarget(url, selector);
+
+      setSuccessMessage(
+        `Target with url ${url} and selector ${selector} has been successfully saved to database.`
+      );
+    } catch (error: any) {
+      setErrorMessage(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSetDefault = () => {
     setUrl("");
     setSelector("");
@@ -57,10 +80,12 @@ const ScanRankings = (props: any, state: any): JSX.Element => {
   return (
     <div className="ScanRankings" data-testid="ScanRankings">
       <p>
-        Scan Rankings tool needs as input an url link to a web page and selector
-        targeting relevant items. It access the webpage, get the list of items
-        and display the rankings list. It renders a full web page within a
-        browser so the whole process might take a while.
+        Verify Selector tool helps user to verify functionality of a Selector
+        (by using Scan Rankings tool in the background). User provides url (web
+        page) and selector targeting relevant items. Then EPS visits the web
+        page, scans the order of items in the web page and shows the rankings
+        list. User can then visually inspect the results and save the Target
+        (url, selector) to the database (<Link to="/targets">Targets</Link>).
       </p>
 
       <Form>
@@ -101,8 +126,6 @@ const ScanRankings = (props: any, state: any): JSX.Element => {
           </>
         )}
       </Form>
-      {loading && <CircularProgress />}
-      {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
 
       {items.length > 0 && (
         <Alert severity="success">
@@ -121,6 +144,21 @@ const ScanRankings = (props: any, state: any): JSX.Element => {
           </p>
         </Alert>
       )}
+
+      {items.length > 0 && !loading && (
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSave}
+          startIcon={<SaveIcon />}
+        >
+          Save to targets
+        </Button>
+      )}
+
+      {loading && <CircularProgress />}
+      {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+      {successMessage && <Alert severity="success">{successMessage}</Alert>}
     </div>
   );
 };

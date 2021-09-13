@@ -26,7 +26,7 @@ const Navigation = (): JSX.Element => {
             <Nav.Link href="/targets">Targets</Nav.Link>
             <Nav.Link href="/rankings">Rankings</Nav.Link>
             <Nav.Link href="/find-selector">Find Selector</Nav.Link>
-            <Nav.Link href="/scan-rankings">Scan Rankings</Nav.Link>
+            <Nav.Link href="/verify-selector">Verify Selector</Nav.Link>
           </Nav>
           <Nav className="justify-content-end">
             <Nav.Link href="/" onClick={handleLogOut}>
