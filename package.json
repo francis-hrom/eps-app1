@@ -31,7 +31,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "test-jest": "jest --runInBand --coverage"
+    "test-jest": "jest --runInBand --coverage",
+    "deploy": "npm run build && mv build/index.html build/200.html && surge build --domain https://eps-app1.surge.sh"
   },
   "eslintConfig": {
     "extends": [
